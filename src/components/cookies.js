@@ -1,8 +1,16 @@
-import Cookies from 'js-cookie';
-
+import Cookies from "js-cookie";
 
 export const setCookies = (list) => {
         console.log(list)
         Cookies.set('list', JSON.stringify(list))
-        const test = Cookies.get('list');
 }       
+
+// useEffect(() => {
+//         setCookies(todoList)
+//       }, [JSON.stringify(todoList)])
+      
+//       useEffect(() => {
+//         const cookies = Cookies.get('list')
+//         const arrayList = JSON.parse(cookies)
+//         setTodoList(arrayList)
+//       }, [])

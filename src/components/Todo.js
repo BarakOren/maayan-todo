@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { setCookies } from "./cookies";
 
 const Todo = (props) => {
 
-    const {setTodoList, todoList, id, todo, remove} = props 
+  const {setTodoList, todoList, id, todo, remove} = props 
   const [editInput, setEditInput] = useState('')
 
   const [editToggle, setEditToggle] = useState(false)

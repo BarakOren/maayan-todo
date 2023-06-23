@@ -1,48 +1,38 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import "./App.css"
 import { v4 as uuidv4 } from 'uuid';
 import Todo from "./components/Todo";
-import { setCookies } from "./components/cookies";
-import Cookies from 'js-cookie';
+import Todo2 from "./components/Todo2";
+
 
 function App() {
 
   const [todoList, setTodoList] = useState([])
-  const [input, setInput] = useState("")
 
-  // edit input
+  const [input, setInput] = useState("");
 
+  // when input changes
   const handleChange = (event) => {
       event.preventDefault();
       setInput(event.target.value);
   }
 
-  const Add = () => { 
-
-      const obj = {
-        todo: input,
-        id: uuidv4()
+  const Add = () => {
+      const object = {
+          todo: input,
+          id: uuidv4()
       }
 
-      setTodoList(prevArray => [...prevArray, obj])
-      setInput("");
-
-      setCookies(todoList)   
+      setTodoList([...todoList, object])
 
   }
 
+
+  //remove from list
   const remove = (id) => {
-      const newArray = todoList.filter(todo => todo.id !== id)  
+      const newArray = todoList.filter(todo => todo.id !== id)
       setTodoList(newArray)
-      setCookies(todoList)
   }
-
-  
-  useEffect(() => {
-    const cookies = Cookies.get('list')
-    const arrayList = JSON.parse(cookies)
-    setTodoList(arrayList)
-  }, [])
 
   return (
     <div className='App'>
@@ -54,25 +44,23 @@ function App() {
     onChange={handleChange}
     />
 
-    <button onClick={Add}>Add</button>
+    <button onClick={Add}>Add</button>     
+    <button onClick={() => {setTodoList([])}}>Delete All</button>
+    
 
-      
-    <button onClick={() => {setCookies(todoList); setTodoList([])}}>Delete All</button>
-    
-    
     <div className="todoList"> 
+    {todoList.map((task, index) => {
+        return <Todo2 
+        number={index + 1}
+        key={task.id}
+        todo={task.todo}
+        id={task.id}
+        remove={remove}
+        todoList={todoList} 
+        setTodoList={setTodoList}
+        />
+    } )}
     
-        {todoList.map((todo) => {
-          return <Todo 
-          key={todo.id}
-          id={todo.id}
-          todo={todo.todo}
-          remove={remove}
-          todoList={todoList}
-          setTodoList={setTodoList}
-
-          />                 
-        })}
 
     </div>
 
@@ -83,3 +71,44 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// {todoList.map((todo) => {
+//   return <Todo 
+//   key={todo.id}
+//   id={todo.id}
+//   todo={todo.todo}
+//   remove={remove}
+//   todoList={todoList}
+//   setTodoList={setTodoList}
+//   />                 
+// })}
+
+// add to list
+  // const Add = () => { 
+
+  //     const obj = {
+  //       todo: input,
+  //       id: uuidv4()
+  //     }
+
+  //     setTodoList(prevArray => [...prevArray, obj])
+  //     setInput("");  
+  // }
+
+   // const remove = (id) => {
+  //     const newArray = todoList.filter(todo => todo.id !== id)  
+  //     setTodoList(newArray)
+  // }
